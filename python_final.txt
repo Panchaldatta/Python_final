@@ -1,0 +1,416 @@
+import numpy as np
+
+class Family:
+    def __init__(self, ages):
+        self.ages = np.array(ages)
+
+    def sort_ages(self):
+        return np.sort(self.ages)
+
+    def youngest(self):
+        return np.min(self.ages)
+
+    def oldest(self):
+        return np.max(self.ages)
+
+def main():
+    # Given data
+    families = [
+        Family([70, 5, 12, 68, 40, 43]),
+        Family([6, 10, 40, 40, 69, 71]),
+        Family([68, 65, 10, 12, 40, 38]),
+        Family([65, 67, 37, 5, 8, 39]),
+        Family([70, 69, 36, 38, 10, 8])
+    ]
+
+    for i, family in enumerate(families):
+        sorted_ages = family.sort_ages()
+        youngest = family.youngest()
+        oldest = family.oldest()
+        print(f"Family {i+1}:")
+        print(f"Sorted ages (youngest to oldest): {sorted_ages}")
+        print(f"Youngest age: {youngest}")
+        print(f"Oldest age: {oldest}\n")
+
+if __name__ == "__main__":
+    main()
+--------------------------------------------
+
+import numpy as np
+
+class Bowler:
+    def __init__(self, scores):
+        self.scores = np.array(scores)
+    
+    def mean_score(self):
+        return np.mean(self.scores)
+
+def main():
+    # Bowling scores for each match
+    first_match = Bowler([12, 10, 2, 3, 5, 0])
+    second_match = Bowler([20, 2, 3, 0, 15, 4])
+    third_match = Bowler([10, 8, 3, 0, 0, 9])
+
+    print(f"Mean bowling score in the first match: {first_match.mean_score()}")
+    print(f"Mean bowling score in the second match: {second_match.mean_score()}")
+    print(f"Mean bowling score in the third match: {third_match.mean_score()}")
+
+if __name__ == "__main__":
+    main()
+
+------------------------------------------
+import numpy as np
+
+class Students:
+    def __init__(self, first_names, last_names):
+        self.first_names = np.array(first_names)
+        self.last_names = np.array(last_names)
+
+    def get_full_names(self):
+        full_names = np.char.add(self.first_names, ' ')
+        full_names = np.char.add(full_names, self.last_names)
+        return full_names
+
+def main():
+    # Sample data
+    first_names = ["Ram", "Abhay", "Murli", "Neha","Monika","Mangal","Bholenath","Sunanda"]
+    last_names = ["Singh", "Kumar", "Sharma", "Mishra","Sherpa","Rajput","Pujari","Kashyap"]
+
+    students = Students(first_names, last_names)
+    full_names = students.get_full_names()
+
+    print("Full names of students:")
+    print(full_names)
+
+if __name__ == "__main__":
+    main()
+
+---------------
+import numpy as np
+
+class Players:
+    def __init__(self, players):
+        self.players = np.array(players)
+
+    def get_names(self):
+        names = np.char.split(self.players, sep=':')
+        names = [name[0] for name in names]
+        return names
+
+def main():
+    # List of players in "NAME:AGE" format
+    players_list = ["ABC:22","PQR:21","XYZ:22","DEF:23","DAS:21","GHF:22","JHK:22","RST:21","YUG:21","OPL:22","BNM:23","FBV:21"]
+
+    players = Players(players_list)
+    names = players.get_names()
+
+    print("List of player names:")
+    print(names)
+
+if __name__ == "__main__":
+    main()
+----------------------------------------
+class StateDetails:
+    def __init__(self, details):
+        self.details = details
+
+    def write_to_file(self, filename):
+        with open(filename, "w") as file:
+            file.write(self.details)
+
+def main():
+    state_details = """Maharashtra Mumbai
+Goa Panaji
+Sikkim Gangtok
+Odisha Bhubaneshwar
+Bihar Patna"""
+
+    state_obj = StateDetails(state_details)
+    state_obj.write_to_file("StateDetails.txt")
+
+if __name__ == "__main__":
+    main()
+import pandas as pd
+
+class StateDetailsReader:
+    def __init__(self, filename):
+        self.filename = filename
+
+    def read_and_display(self):
+        df = pd.read_csv(self.filename, sep=" ", header=None, names=["STATE", "CAPITAL"])
+        print("STATE CAPITAL")
+        print(df)
+
+def main():
+    state_reader = StateDetailsReader("StateDetails.txt")
+    state_reader.read_and_display()
+
+if __name__ == "__main__":
+    main()
+------------------------------------
+avenger_details = """Black widow-fierce fighter
+Thor-funny
+Iron man-Commander
+Captain America-Defender
+Hulk-Logician"""
+
+with open("AvengerDetails.txt", "w") as file:
+    file.write(avenger_details)
+import pandas as pd
+
+# Read the text file
+df = pd.read_csv("AvengerDetails.txt", sep='-', header=None, names=["Avenger", "Characteristic"])
+
+# Display the details with the heading "Avenger Characteristic"
+print("Avenger Characteristic")
+print(df)
+=-------------------------------------------
+import re
+
+def remove_whitespace(line):
+    # This function uses regex to remove all white spaces in a line
+    return re.sub(r'\s+', '', line)
+
+def process_file(source_file, target_file):
+    with open(source_file, 'r') as infile, open(target_file, 'w') as outfile:
+        for line in infile:
+            compact_line = remove_whitespace(line)
+            outfile.write(compact_line + '\n')
+
+source_file = 'source.txt'  # Replace with your source file path
+target_file = 'compact.txt' # Output file path
+
+process_file(source_file, target_file)
+
+print(f'File processed successfully and saved as {target_file}')
+--------------------------------------------
+import re
+
+def separate_letters(line):
+    small_letters = re.findall(r'[a-z]', line)
+    capital_letters = re.findall(r'[A-Z]', line)
+    return ''.join(small_letters), ''.join(capital_letters)
+
+def process_garbled_file(source_file, target_file):
+    small_count = capital_count = 0
+    with open(source_file, 'r') as infile, open(target_file, 'w') as outfile:
+        for line in infile:
+            smalls, capitals = separate_letters(line)
+            small_count += len(smalls)
+            capital_count += len(capitals)
+            outfile.write(smalls + capitals + '\n')
+    return small_count, capital_count
+
+source_file = 'source.txt'  # Replace with your source file path
+target_file = 'destination.txt' # Output file path
+
+small_count, capital_count = process_garbled_file(source_file, target_file)
+print(f'Small letters: {small_count}, Capital letters: {capital_count}')
+----------------------------------------
+
+import re
+
+# Function to validate mobile number
+def is_valid_mobile(number):
+    # Assuming valid mobile numbers start with 6-9 and have either 10 digits or start with '91' followed by 10 digits
+    return re.match(r'^(?:91)?[6-9]\d{9}$', number)
+
+def extract_mobile_numbers(source_file, target_file):
+    with open(source_file, 'r') as infile, open(target_file, 'w') as outfile:
+        for line in infile:
+            numbers = re.findall(r'\b\d{10,12}\b', line)
+            for number in numbers:
+                if is_valid_mobile(number):
+                    outfile.write(number + '\n')
+
+source_file = 'Contacts.txt'  # Replace with your source file path
+target_file = 'MobileNumber.txt'  # Output file path
+
+extract_mobile_numbers(source_file, target_file)
+print(f'Valid mobile numbers have been saved to {target_file}')
+--------------------------------
+import re
+
+def check_attendance(student_name, source_file):
+    # Open the source file and read line by line
+    with open(source_file, 'r') as infile:
+        for line in infile:
+            # Use regex to search for the student's name in the line, case-insensitive
+            if re.search(rf'\b{re.escape(student_name)}\b', line, re.IGNORECASE):
+                return True
+    return False
+
+source_file = 'attendance.txt'  # Replace with your source file path
+student_name = input("Enter student's name to check attendance: ")
+
+if check_attendance(student_name, source_file):
+    print(f'{student_name} is marked present.')
+else:
+    print(f'{student_name} was absent.')
+--------------------------------------
+class LearnerUnderAgeError(Exception):
+    """Custom exception for learners under the legal age"""
+    pass
+
+def enroll_for_driving_school(name, address, age):
+    if age < 18:
+        raise LearnerUnderAgeError(f"Sorry {name}, you must be at least 18 years old to enroll in the driving school.")
+    
+    return f"Enrollment successful for {name} at {address}. Age: {age}."
+
+def main():
+    try:
+        name = input("Enter your name: ")
+        address = input("Enter your address: ")
+        age = int(input("Enter your age: "))
+        
+        result = enroll_for_driving_school(name, address, age)
+        print(result)
+    
+    except LearnerUnderAgeError as e:
+        print(e)
+    except ValueError:
+        print("Please enter a valid age.")
+
+if __name__ == "__main__":
+    main()
+-----------------------------
+
+class FreebieLimitExceededError(Exception):
+    pass
+
+def order_cakes():
+    paid_flavor = input("Enter the flavor of the PAID cake: ")
+    print("You can add up to 2 FREE cakes.")
+    
+    free_cakes = []
+    
+    try:
+        while True:
+            if len(free_cakes) >= 2:
+                raise FreebieLimitExceededError("You can only add up to 2 FREE cakes.")
+                
+            free_flavor = input("Enter the flavor of a FREE cake (or press Enter to finish): ")
+            if not free_flavor:
+                break
+            free_cakes.append(free_flavor)
+            
+    except FreebieLimitExceededError as e:
+        print(e)
+    
+    print(f"Order summary:\nPAID cake flavor: {paid_flavor}\nFREE cake flavors: {', '.join(free_cakes)}")
+    print("Order placed successfully!")
+
+order_cakes()
+--------------------------------------------
+class MaximumLoginAttemptsExceededError(Exception):
+    pass
+
+def login():
+    correct_password = "Aditya(adi)"  # Replace with the actual correct password
+    max_attempts = 3
+    attempts = 0
+    
+    while attempts < max_attempts:
+        password = input("Enter your password: ")
+        if password == correct_password:
+            print("Login successful!")
+            return
+        else:
+            attempts += 1
+            print(f"Wrong password. Attempt {attempts} of {max_attempts}.")
+    
+    # Raise custom exception after exceeding maximum attempts
+    raise MaximumLoginAttemptsExceededError("Maximum login attempts exceeded. Access denied.")
+
+def main():
+    try:
+        login()
+    except MaximumLoginAttemptsExceededError as e:
+        print(e)
+
+if __name__ == "__main__":
+    main()
+
+--------------------------------------------
+class SpeedingLimitExceededError(Exception):
+    pass
+
+def check_speed():
+    try:
+        speed = float(input("Enter the speed of the vehicle (in km/hr): "))
+        
+        if speed > 120:
+            vehicle_number = input("Enter the vehicle number: ")
+            raise SpeedingLimitExceededError(f"Speed of {speed} km/hr exceeded the limit. Chalan issued for vehicle {vehicle_number}.")
+        
+        print(f"Speed of {speed} km/hr is within the limit. Drive safely!")
+    
+    except ValueError:
+        print("Please enter a valid speed value.")
+    
+    except SpeedingLimitExceededError as e:
+        print(e)
+
+def main():
+    check_speed()
+
+if __name__ == "__main__":
+    main()
+
+---------------------------------------------
+class TooManyTicketsBookedError(Exception):
+    pass
+
+def book_tickets():
+    try:
+        num_tickets = int(input("Enter the number of tickets you want to book (1 to 5): "))
+        
+        if num_tickets < 1 or num_tickets > 5:
+            raise TooManyTicketsBookedError("You can only book between 1 to 5 tickets.")
+        
+        print(f"Successfully booked {num_tickets} ticket(s). Enjoy the concert!")
+    
+    except ValueError:
+        print("Please enter a valid number.")
+    
+    except TooManyTicketsBookedError as e:
+        print(e)
+
+def main():
+    book_tickets()
+
+if __name__ == "__main__":
+    main()
+
+-------------------------------------------
+class OverSpeedingError(Exception):
+    pass
+
+def check_speed():
+    try:
+        speed = float(input("Enter the speed of the vehicle (in km/hr): "))
+        
+        if speed > 80:
+            vehicle_number = input("Enter the vehicle number: ")
+            raise OverSpeedingError(f"Speed of {speed} km/hr exceeds the limit. Chalan issued for vehicle {vehicle_number}.")
+        
+        print(f"Speed of {speed} km/hr is within the limit. Safe driving!")
+    
+    except ValueError:
+        print("Please enter a valid speed value.")
+    
+    except OverSpeedingError as e:
+        print(e)
+
+def main():
+    check_speed()
+
+if __name__ == "__main__":
+    main()
+
+
+
+
+
+
